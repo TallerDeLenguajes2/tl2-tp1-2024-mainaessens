@@ -4,10 +4,10 @@ public class Cliente {
     private string telefono; 
     private string datosReferenciaDireccion;
 
-    public string Nombre { get => nombre; set => nombre = value; }
-    public string Direccion { get => direccion; set => direccion = value; }
-    public string Telefono { get => telefono; set => telefono = value; }
-    public string DatosReferenciaDireccion { get => datosReferenciaDireccion; set => datosReferenciaDireccion = value; }
+    public string Nombre { get => nombre;}
+    public string Direccion { get => direccion;}
+    public string Telefono { get => telefono;}
+    public string DatosReferenciaDireccion { get => datosReferenciaDireccion;}
 
     public Cliente(string nombre, string direccion, string telefono, string referencias)
     {

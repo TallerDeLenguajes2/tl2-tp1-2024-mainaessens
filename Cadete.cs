@@ -3,15 +3,22 @@ public class Cadete{
     private int id; 
     private string nombre; 
     private string direccion; 
-    private long telefono;
-    private List<Pedidos> ListadoPedidos;
+    private string telefono;
+    private List<Pedidos> listadoPedidos;
 
-    public int Id { get => id; set => id = value; }
-    public string Nombre { get => nombre; set => nombre = value; }
-    public string Direccion { get => direccion; set => direccion = value; }
-    public long Telefono { get => telefono; set => telefono = value; }
-    public List<Pedidos> ListadoPedidos1 { get => ListadoPedidos; set => ListadoPedidos = value; }
+    public int Id { get => id;}
+    public string Nombre { get => nombre;}
+    public string Direccion { get => direccion;}
+    public string Telefono { get => telefono;}
+    public List<Pedidos> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
 
+    public Cadete(int id, string nombre, string direccion, string telefono){
+        this.id = id; 
+        this.nombre = nombre; 
+        this.direccion = direccion; 
+        this.telefono = telefono; 
+        ListadoPedidos = new List<Pedidos>(); 
+    }
     public int CantidadDePedidosCompletados(){
         return ListadoPedidos.Count(p => p.Estado == Estados.Entregado); 
     }
@@ -21,7 +28,18 @@ public class Cadete{
     }
 
     public Pedidos DarDeBajaPedido(int numero){
-        var pedidoQuitar = Pedidos.Where(p => p.numero == numero).ToList(); 
+        var pedidoQuitar = ListadoPedidos.Where(p => p.Nro == numero).ToList(); 
+        ListadoPedidos.Remove(pedidoQuitar[0]); 
         return pedidoQuitar[0]; 
+    }
+
+    public void RetirarPedido(int numero){
+        var pedidoQuitar = ListadoPedidos.Where(p => p.Nro == numero).ToList(); 
+        pedidoQuitar[0].Estado = Estados.Entregado; 
+    }
+
+    public void CompletarPedido(int numero){
+        var pedidoQuitar = ListadoPedidos.Where(p => p.Nro == numero).ToList(); 
+        pedidoQuitar[0].Estado = Estados.Entregado; 
     }
 }
