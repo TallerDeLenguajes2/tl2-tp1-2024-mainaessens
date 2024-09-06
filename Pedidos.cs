@@ -3,17 +3,20 @@ public class Pedidos{
     private string obs;
     private Cliente cliente; 
     private Estados estado;
+    private Cadete cadete; //agregamos la referencia al cadete
 
     public int Nro { get => nro;}
     public string Obs { get => obs;}
     public Cliente Cliente { get => cliente; set => cliente = value; }
     public Estados Estado { get => estado; set => estado = value; }
+    public Cadete Cadete { get => cadete; set => cadete = value; }
 
-    public Pedidos(int numero, string observacion, string nombre, string direccion, string telefono, string referencias){
+    public Pedidos(int numero, string observacion, Cliente cliente){
         nro = numero; 
         obs = observacion; 
         Estado = Estados.Preparacion; 
-        cliente = new Cliente(nombre, direccion, telefono,referencias); 
+        cadete = null; //inicialmente, sin cadete asignado
+        this.cliente = cliente; 
     }
 
     public void VerDireccionCliente(){
