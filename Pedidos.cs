@@ -1,39 +1,45 @@
-public class Pedidos{
-    private int nro; 
-    private string obs;
-    private Cliente cliente; 
+using System.ComponentModel;
+
+public class Pedido
+{
+    private int numero;
+
+    private string observacion;
+    private Cliente cliente;
+
     private Estados estado;
-    private Cadete cadete; //agregamos la referencia al cadete
-
-    public int Nro { get => nro;}
-    public string Obs { get => obs;}
-    public Cliente Cliente { get => cliente; set => cliente = value; }
+    private Cadete cadeteAsignado;
+    public int Numero { get => numero;}
+    public string Observacion { get => observacion;}
     public Estados Estado { get => estado; set => estado = value; }
-    public Cadete Cadete { get => cadete; set => cadete = value; }
+    public Cadete CadeteAsignado { get => cadeteAsignado; set => cadeteAsignado = value; }
 
-    public Pedidos(int numero, string observacion, Cliente cliente){
-        nro = numero; 
-        obs = observacion; 
-        Estado = Estados.Preparacion; 
-        cadete = null; //inicialmente, sin cadete asignado
-        this.cliente = cliente; 
+    public Pedido(int nro, string obs, string nombre, string direcc, string telefono, string referencias)
+    {
+        numero = nro;
+        observacion = obs;
+        Estado = Estados.Preparacion;
+        cliente = new Cliente(nombre, direcc, telefono, referencias);
+        cadeteAsignado = new Cadete();
     }
 
-    public void VerDireccionCliente(){
+
+    public void VerDireccionCliente()
+    {
         Console.WriteLine($"Dirección de entrega: {cliente.Direccion}");
-        if (cliente.DatosReferenciaDireccion != null)
+        if(cliente.DatosReferenciasDireccion != null)
         {
-            Console.WriteLine($"Referencias: {cliente.DatosReferenciaDireccion}");
+            Console.WriteLine($"Referencias: {cliente.DatosReferenciasDireccion}");
         }
-    }
-
-    public void VerDatosCliente(){
-        Console.WriteLine($"Cliente: {cliente.Nombre}"); 
-        Console.WriteLine($"Direccion: {cliente.Direccion}"); 
-        Console.WriteLine($"Telefono: {cliente.Telefono}"); 
 
     }
-} 
+    public void VerDatosCliente()
+    {
+        Console.WriteLine($"Cliente: {cliente.Nombre}");
+        Console.WriteLine($"Direccion: {cliente.Direccion}");
+        Console.WriteLine($"Telefono: {cliente.Telefono}");
+    }
+}
 
 public enum Estados {
     Preparacion, 

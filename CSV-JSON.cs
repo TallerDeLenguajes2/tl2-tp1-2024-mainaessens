@@ -62,7 +62,7 @@ public class AccesoJson : AccesoADatos
 {
     public override bool Existe(string nombreArchivo)
     {
-        string ruta = "json/"+nombreArchivo; 
+        string ruta = "json/"+nombreArchivo + ".json"; 
         return File.Exists(ruta); 
     }
 
