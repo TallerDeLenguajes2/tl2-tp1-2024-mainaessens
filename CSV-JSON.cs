@@ -1,15 +1,24 @@
 using System.Text.Json;
 
 public class AccesoCSV : AccesoADatos{
+
+
+    public AccesoCSV()
+    {
+       
+    }
+
+    private string getRuta(string nombreArchivo) => "csv/" + nombreArchivo + ".csv";
     public override bool Existe(string nombreArchivo){
-        string ruta = "csv/"+nombreArchivo; 
-        return File.Exists(ruta); 
+        return File.Exists(getRuta(nombreArchivo)); 
     }
 
     public override List<Cadete> LeerCadetes(string nombreArchivo){
-        string ruta = "csv/"+nombreArchivo; 
+       
+        if (!Existe(getRuta(nombreArchivo))) new List<Cadete>(); 
+
         List<Cadete> cadetes = new List<Cadete>(); 
-        using (var archivoOpen = new FileStream(ruta, FileMode.Open)){
+        using (var archivoOpen = new FileStream(getRuta(nombreArchivo), FileMode.Open)){
             using(var strReader = new StreamReader(archivoOpen)){
                 string linea;
                 while((linea = strReader.ReadLine()) != null){
@@ -22,16 +31,18 @@ public class AccesoCSV : AccesoADatos{
         return cadetes; 
     }
 
-    public override string LeerCadeteria(string nombreArchivo){
-        string ruta = "csv/"+nombreArchivo; 
+    public override Cadeteria LeerCadeteria(string nombreArchivo){
         string informacionCadeteria; 
-        using(var archivoOpen = new FileStream(ruta, FileMode.Open)){
+        Cadeteria cadeteria;
+        using(var archivoOpen = new FileStream(getRuta(nombreArchivo), FileMode.Open)){
             using(var strReader = new StreamReader(archivoOpen)){
                 informacionCadeteria = strReader.ReadToEnd(); 
+                var datosCadeteria = informacionCadeteria.Split(";");
+                cadeteria = new Cadeteria(datosCadeteria[0],datosCadeteria[1]);
                 archivoOpen.Close(); 
             }
         }
-        return informacionCadeteria; 
+        return cadeteria; 
     }
 
     public override void GuardarCadetes(List<Cadete> cadetes, string archivo)
@@ -60,38 +71,41 @@ public class AccesoCSV : AccesoADatos{
 
 public class AccesoJson : AccesoADatos
 {
-    public override bool Existe(string nombreArchivo)
+    private string getRuta(string nombreArchivo) => "json/" + nombreArchivo + ".json";
+
+    public AccesoJson()
     {
-        string ruta = "json/"+nombreArchivo + ".json"; 
-        return File.Exists(ruta); 
+        
     }
 
-    public override string LeerCadeteria(string nombreArchivo)
+    public override bool Existe(string nombreArchivo)
     {
-        string json = File.ReadAllText(nombreArchivo); 
-        return json; 
+        return File.Exists(getRuta(nombreArchivo)); 
+    }
+
+    public override Cadeteria LeerCadeteria(string nombreArchivo)
+    {
+        string json = File.ReadAllText(getRuta(nombreArchivo)); 
+        return JsonSerializer.Deserialize<Cadeteria>(json); 
     }
 
     public override List<Cadete> LeerCadetes(string nombreArchivo)
     {
-        string ruta = "json/" + nombreArchivo;
-        string json = File.ReadAllText(ruta); 
+        string json = File.ReadAllText(getRuta(nombreArchivo)); 
         return JsonSerializer.Deserialize<List<Cadete>>(json); 
     }
 
     public override void GuardarCadetes(List<Cadete> cadetes, string nombreArchivo)
     {
-        string ruta = "json/" + nombreArchivo;
         string json = JsonSerializer.Serialize(cadetes, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(ruta, json);
+        File.WriteAllText(getRuta(nombreArchivo), json);
         Console.WriteLine("Cadetes guardados exitosamente en JSON.");
     }
 
     public override void GuardarCadeteria(Cadeteria cadeteria, string nombreArchivo)
     {
-        string ruta = "json/" + nombreArchivo;
         string json = JsonSerializer.Serialize(cadeteria, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(ruta, json);
+        File.WriteAllText(getRuta(nombreArchivo), json);
         Console.WriteLine("Cadeteria guardada exitosamente en JSON.");
     }
 }

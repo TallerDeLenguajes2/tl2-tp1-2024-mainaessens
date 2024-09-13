@@ -1,40 +1,27 @@
 ﻿using System.Text.Json;
 using Sistema;
+
+string nombreArchivoCadetes = "Cadetes";
+string nombreArchivoCadeteria = "Cadeteria";
+
 Menu menuArchivos = new Menu("Elija el archivo con el que desea trabajar", ["Json", "CSV"]);
 int eleccion = menuArchivos.MenuDisplay();
-List<Cadete> cadetes = null;
-Cadeteria cadeteria = null;
-switch (eleccion)
+
+
+AccesoADatos accesoADatos;
+
+if(eleccion == 0)
 {
-    case 0:
-        AccesoJson archivoJson = new AccesoJson();
-        string nombreArchivoCadetesJson = "Cadetes.json";
-        string nombreArchivoCadeteriaJson = "Cadeteria.json";
-        if(archivoJson.Existe(nombreArchivoCadetesJson) && archivoJson.Existe(nombreArchivoCadeteriaJson))
-        {
-            cadetes = archivoJson.LeerCadetes(nombreArchivoCadetesJson);
-            cadeteria = archivoJson.LeerCadeteria(nombreArchivoCadeteriaJson);
-            cadeteria.Cadetes = cadetes;
-        }
-        {
-            Console.WriteLine("No se encontraron los archivos");
-        }
-        break;
-    case 1:
-        AccesoCSV archivoCSV = new AccesoCSV();
-        string nombreArchivoCadetesCsv = "Cadetes.csv";
-        string nombreArchivoCadeteriaCsv = "Cadeteria.csv";
-        if(archivoCSV.Existe(nombreArchivoCadetesCsv) && archivoCSV.Existe(nombreArchivoCadeteriaCsv))
-        {
-            cadetes = archivoCSV.LeerCadetes(nombreArchivoCadetesCsv);
-            cadeteria = archivoCSV.LeerCadeteria(nombreArchivoCadeteriaCsv);
-            cadeteria.Cadetes = cadetes;
-        }else
-        {
-            Console.WriteLine("No se encontraron los archivos");
-        }
-        break;
+    accesoADatos = new AccesoJson();
 }
+else
+{
+    accesoADatos = new AccesoCSV();    
+}
+
+var cadetes = accesoADatos.LeerCadetes(nombreArchivoCadetes);
+var cadeteria = accesoADatos.LeerCadeteria(nombreArchivoCadeteria);
+cadeteria.Cadetes = cadetes;
 
 int operacion;
 int nroPedido = 0;
