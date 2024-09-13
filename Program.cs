@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Sistema;
+﻿using Sistema;
 
 string nombreArchivoCadetes = "Cadetes";
 string nombreArchivoCadeteria = "Cadeteria";
@@ -61,7 +60,8 @@ do
                 Console.WriteLine("Ingrese el numero de pedido cuyo estado desea modificar: ");
                 num = Console.ReadLine();
             } while (!int.TryParse(num, out numIngresado));
-            cadeteria.CambiarEstadoDelPedido(numIngresado);
+            int seleccion = Funciones.ElegirEstado(); 
+            cadeteria.CambiarEstadoDelPedido(numIngresado, seleccion);
             Console.ReadKey();
             break;
         case 3:

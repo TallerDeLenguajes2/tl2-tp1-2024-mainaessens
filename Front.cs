@@ -44,6 +44,12 @@ namespace Sistema
             return seleccion;
         }
 
+        public static int ElegirEstado(){
+            Menu menuDeSeleccion = new Menu("Seleccione el estado al que desea cambiar", ["En camino", "Entregado"]);
+            int seleccion = menuDeSeleccion.MenuDisplay();
+            return seleccion; 
+        }
+
         public static void MostrarPedido(Pedido pedido)
         {
             if (pedido != null)
@@ -51,7 +57,8 @@ namespace Sistema
                 Console.WriteLine($"Pedido Nro: {pedido.Numero}");
                 Console.WriteLine($"Observaciones: {pedido.Observacion}");
                 Console.WriteLine($"Estado: {pedido.Estado}");
-                pedido.VerDatosCliente();
+                string[] datosClientes = pedido.VerDatosCliente();
+                Console.WriteLine(datosClientes); 
                 if(pedido.CadeteAsignado != null)
                 {
                     Console.WriteLine($"Cadete Asignado: {pedido.CadeteAsignado.Nombre}");

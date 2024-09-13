@@ -22,22 +22,9 @@ public class Pedido
         cliente = new Cliente(nombre, direcc, telefono, referencias);
         cadeteAsignado = new Cadete();
     }
-
-
-    public void VerDireccionCliente()
+    public string[] VerDatosCliente()
     {
-        Console.WriteLine($"Dirección de entrega: {cliente.Direccion}");
-        if(cliente.DatosReferenciasDireccion != null)
-        {
-            Console.WriteLine($"Referencias: {cliente.DatosReferenciasDireccion}");
-        }
-
-    }
-    public void VerDatosCliente()
-    {
-        Console.WriteLine($"Cliente: {cliente.Nombre}");
-        Console.WriteLine($"Direccion: {cliente.Direccion}");
-        Console.WriteLine($"Telefono: {cliente.Telefono}");
+        return [cliente.Nombre, cliente.Direccion, cliente.Telefono]; 
     }
 }
 

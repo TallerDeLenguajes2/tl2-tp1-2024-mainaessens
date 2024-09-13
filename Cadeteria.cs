@@ -53,20 +53,14 @@ public class Cadeteria
             int seleccion = Funciones.ElegirCadete(cadetesDisponibles);
             pedidoAReasignar[0].CadeteAsignado = cadetesDisponibles[seleccion];
             
-        }else
-        {
-            Console.WriteLine("El número ingresado no se corresponde con ningun pedido");
         }
-        
     }
 
-    public void CambiarEstadoDelPedido(int numero)
+    public void CambiarEstadoDelPedido(int numero, int seleccion)
     {
         var pedidoAModificar = pedidos.Where(p => p.Numero == numero).ToList();
         if (pedidoAModificar.Count != 0)
         {
-            Menu menuDeSeleccion = new Menu("Seleccione el estado al que desea cambiar", ["En camino", "Entregado"]);
-            int seleccion = menuDeSeleccion.MenuDisplay();
             switch (seleccion)
             {
                 case 0:
@@ -76,9 +70,6 @@ public class Cadeteria
                     pedidoAModificar[0].Estado = Estados.Entregado;
                     break;
             }
-        }else
-        {
-            Console.WriteLine("El número ingresado no se corresponde con ningún pedido"); 
         }
 
     }
