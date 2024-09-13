@@ -50,6 +50,22 @@ namespace Sistema
             return seleccion; 
         }
 
+        public static void MostrarJornalesYEnvios(Cadeteria cadeteria)
+        {
+            int totalEnvios = 0;
+            foreach (var cadete in cadeteria.Cadetes)
+            {
+                int numPedidosCompletados = cadeteria.CalculoPedidosCompletados(cadete.Id);
+                float pago = cadeteria.JornalACobrar(numPedidosCompletados);
+                Console.WriteLine($"{cadete.Nombre}-${pago}");
+                totalEnvios += numPedidosCompletados;
+            }
+            float promedioEnviosPorCadete = (float)totalEnvios/cadeteria.Cadetes.Count;
+            Console.WriteLine($"Total-Envios: {totalEnvios}"); 
+            Console.WriteLine($"Promedio de envios completado por cadete: {promedioEnviosPorCadete}");
+
+        }
+
         public static void MostrarPedido(Pedido pedido)
         {
             if (pedido != null)
@@ -57,8 +73,7 @@ namespace Sistema
                 Console.WriteLine($"Pedido Nro: {pedido.Numero}");
                 Console.WriteLine($"Observaciones: {pedido.Observacion}");
                 Console.WriteLine($"Estado: {pedido.Estado}");
-                string[] datosClientes = pedido.VerDatosCliente();
-                Console.WriteLine(datosClientes); 
+                pedido.VerDatosCliente();
                 if(pedido.CadeteAsignado != null)
                 {
                     Console.WriteLine($"Cadete Asignado: {pedido.CadeteAsignado.Nombre}");
@@ -67,6 +82,11 @@ namespace Sistema
             {
                 Console.WriteLine("El pedido no existe");
             }
+        }
+
+        public static void MostrarMensajeDeError()
+        {
+            Console.WriteLine("ERROR. Los datos ingresados no son correctos");
         }
 
         public static void MostrarPedidosSinEntregar(Cadeteria cadeteria)

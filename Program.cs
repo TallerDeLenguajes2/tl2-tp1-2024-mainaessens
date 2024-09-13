@@ -49,6 +49,10 @@ do
                     ingresa = Console.ReadLine();
                 } while (!int.TryParse(ingresa, out numeroPedido));
                 int idCadete = Funciones.ElegirCadete(cadeteria.Cadetes);
+                if(!cadeteria.AsignarCadeteAPedido(numeroPedido, idCadete))
+                {
+                    Funciones.MostrarMensajeDeError();
+                }
                 cadeteria.AsignarCadeteAPedido(numeroPedido, idCadete);
             }
             break;
@@ -61,7 +65,9 @@ do
                 num = Console.ReadLine();
             } while (!int.TryParse(num, out numIngresado));
             int seleccion = Funciones.ElegirEstado(); 
-            cadeteria.CambiarEstadoDelPedido(numIngresado, seleccion);
+            if(!cadeteria.CambiarEstadoDelPedido(numIngresado, seleccion)){
+                Funciones.MostrarMensajeDeError(); 
+            }
             Console.ReadKey();
             break;
         case 3:
@@ -74,12 +80,15 @@ do
                 Console.WriteLine("Ingrese el numero del pedido que desea reasignar:");
                 ingreso = Console.ReadLine();
             } while (!int.TryParse(ingreso, out numPedido));
-            cadeteria.ReasignarPedido(numPedido);
+            if(!cadeteria.ReasignarPedido(numPedido))
+            {
+                Funciones.MostrarMensajeDeError();      
+            }
             Console.ReadKey();
             break;
         case 4:
             Console.WriteLine("Final de Jornada-Informe");
-            cadeteria.MostrarJornalesYEnvios();
+            Funciones.MostrarJornalesYEnvios(cadeteria); 
             Console.ReadKey();
             break;
         }

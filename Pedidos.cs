@@ -22,9 +22,9 @@ public class Pedido
         cliente = new Cliente(nombre, direcc, telefono, referencias);
         cadeteAsignado = new Cadete();
     }
-    public string[] VerDatosCliente()
+    public string VerDatosCliente()
     {
-        return [cliente.Nombre, cliente.Direccion, cliente.Telefono]; 
+        return "nombre: " + cliente.Nombre + "Direccion: " + cliente.Direccion + "Telefono: " + cliente.Telefono; 
     }
 }
 

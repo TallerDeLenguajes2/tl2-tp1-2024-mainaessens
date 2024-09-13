@@ -30,21 +30,22 @@ public class Cadeteria
     {
         Pedidos.Add(pedido);
     }
-    public void AsignarCadeteAPedido(int numPedido, int idCadete)
+    public bool AsignarCadeteAPedido(int numPedido, int idCadete)
     {
        var cadeteElegido = cadetes.Where(c => c.Id == idCadete).ToList();
        var pedidoElegido = pedidos.Where(p => p.Numero == numPedido).ToList();
        if(cadeteElegido != null && pedidoElegido != null)
        {
             pedidoElegido[0].CadeteAsignado = cadeteElegido[0];
+            return true; 
        }else
        {
-            Console.WriteLine("No existe el pedido y/o cadete elegido");
+            return false; 
        }
 
     }
 
-    public void ReasignarPedido(int numero)
+    public bool ReasignarPedido(int numero)
     {
         var pedidoAReasignar = Pedidos.Where(p => p.Numero == numero).ToList();
         if (pedidoAReasignar.Count != 0)
@@ -52,11 +53,13 @@ public class Cadeteria
             var cadetesDisponibles = cadetes.Where(c => c.Nombre != pedidoAReasignar[0].CadeteAsignado.Nombre).ToList();
             int seleccion = Funciones.ElegirCadete(cadetesDisponibles);
             pedidoAReasignar[0].CadeteAsignado = cadetesDisponibles[seleccion];
-            
+            return true; 
+        }else{
+            return false; 
         }
     }
 
-    public void CambiarEstadoDelPedido(int numero, int seleccion)
+    public bool CambiarEstadoDelPedido(int numero, int seleccion)
     {
         var pedidoAModificar = pedidos.Where(p => p.Numero == numero).ToList();
         if (pedidoAModificar.Count != 0)
@@ -70,34 +73,23 @@ public class Cadeteria
                     pedidoAModificar[0].Estado = Estados.Entregado;
                     break;
             }
+            return true; 
+        }else{
+            return false; 
         }
 
     }
 
-    private int CalculoPedidosCompletados(int idCadete)
+    public int CalculoPedidosCompletados(int idCadete)
     {
         var pedidosEntregados = pedidos.Where(p => p.Estado == Estados.Entregado).ToList();
         var numPedidosCompletados = pedidosEntregados.Count(p => p.CadeteAsignado.Id == idCadete);
         return numPedidosCompletados;
     }
 
-    private float JornalACobrar(int pedidosCompletados)
+    public float JornalACobrar(int pedidosCompletados)
     {
         return 500*pedidosCompletados;
-    }
-    public void MostrarJornalesYEnvios()
-    {
-        int totalEnvios = 0;
-        foreach (var cadete in cadetes)
-        {
-            int numPedidosCompletados = CalculoPedidosCompletados(cadete.Id);
-            float pago = JornalACobrar(numPedidosCompletados);
-            Console.WriteLine($"{cadete.Nombre}-${pago}");
-            totalEnvios += numPedidosCompletados;
-        }
-        float promedioEnviosPorCadete = (float)totalEnvios/cadetes.Count;
-        Console.WriteLine($"Total-Envios: {totalEnvios}"); 
-        Console.WriteLine($"Promedio de envios completado por cadete: {promedioEnviosPorCadete}");
     }
 
 }
